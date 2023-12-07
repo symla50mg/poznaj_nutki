@@ -1,61 +1,76 @@
+import enums.Scenes;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.border.LineBorder;
 
-class MenuWindow extends JFrame {
+class Menu extends JPanel implements ActionListener {
     //deklaracja komponentów
-    JButton T1, T2, T3;
-    JLabel LOGO;
+    JButton t1, t2, t3;
+    JLabel logo;
 
-    MenuWindow (String name){
-        super (name);
-        setResizable(false);
-        setSize(1024,768);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        getContentPane().setBackground(new Color(185, 185, 185));
+    public Boolean isTutorialCompleted = false;
+
+    Menu(){
         setLayout(null);
+        setBackground(new Color(185, 185, 185));
 
         //tworzenie komponentów
-        ImageIcon logo = new ImageIcon("src/images/logo.png");
-        LOGO = new JLabel(logo);
-        LOGO.setBounds(347, 100, 330, 170);
-        //LOGO.setBorder(new LineBorder(Color.BLACK, 2, true));
+        ImageIcon log = new ImageIcon("src/images/logo.png");
+        logo = new JLabel(log);
+        logo.setBounds(347, 100, 330, 170);
 
-        T1 = new JButton("ĆWICZ NUTY");
-        T1.setBounds(357, 310, 310, 50);
-        T1.setBackground(new Color(112, 112, 112));
-        T1.setBorder(new LineBorder(Color.BLACK, 2, true));
-        T1.setFont(new Font("Arial", Font.BOLD, 24));
-        T1.setForeground(Color.BLACK);
+        t1 = new JButton("ĆWICZ NUTY");
+        t1.addActionListener(this);
+        t1.setActionCommand("TUTORIAL");
+        t1.setBounds(357, 310, 310, 50);
+        t1.setBackground(new Color(112, 112, 112));
+        t1.setBorder(new LineBorder(Color.BLACK, 2, true));
+        t1.setFont(new Font("Arial", Font.BOLD, 24));
+        t1.setForeground(Color.BLACK);
 
-        T2 = new JButton("ZAGRAJ PIOSENKĘ");
-        T2.setBounds(357, 410, 310, 50);
-        T2.setBackground(new Color(112, 112, 112));
-        T2.setBorder(new LineBorder(Color.BLACK, 2, true));
-        T2.setFont(new Font("Arial", Font.BOLD, 24));
-        T2.setForeground(Color.BLACK);
-
-        T3 = new JButton("GRAJ DOWOLNIE");
-        T3.setBounds(357, 510, 310, 50);
-        T3.setBackground(new Color(112, 112, 112));
-        T3.setBorder(new LineBorder(Color.BLACK, 2, true));
-        T3.setFont(new Font("Arial", Font.BOLD, 24));
-        T3.setForeground(Color.BLACK);
+        t3 = new JButton("GRAJ DOWOLNIE");
+        t3.addActionListener(this);
+        t3.setActionCommand("ENDLESS_MODE");
+        t3.setBounds(357, 510, 310, 50);
+        t3.setBackground(new Color(112, 112, 112));
+        t3.setBorder(new LineBorder(Color.BLACK, 2, true));
+        t3.setFont(new Font("Arial", Font.BOLD, 24));
+        t3.setForeground(Color.BLACK);
 
         //dodawanie komponentów
-        add(LOGO);
-        add(T1);
-        add(T2);
-        add(T3);
+        add(logo);
+        add(t1);
+        add(t3);
 
-        //obsługa zdarzeń
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        switch (e.getActionCommand()){
+            case "MENU" -> Window.SetScene(Scenes.MENU);
+            case "ENDLESS_MODE" -> Window.SetScene(Scenes.ENDLESS_MODE);
+            case "TUTORIAL" -> Window.SetScene(Scenes.TUTORIAL);
+            case "PLAY_SONG" -> Window.SetScene(Scenes.PLAY_SONG);
+        }
+    }
+
+    public void checkTutorial(){
+        if (isTutorialCompleted){
+            if (t2 == null){
+                t2 = new JButton("ZAGRAJ PIOSENKĘ");
+                t2.addActionListener(this);
+                t2.setActionCommand("PLAY_SONG");
+                t2.setBounds(357, 410, 310, 50);
+                t2.setBackground(new Color(112, 112, 112));
+                t2.setBorder(new LineBorder(Color.BLACK, 2, true));
+                t2.setFont(new Font("Arial", Font.BOLD, 24));
+                t2.setForeground(Color.BLACK);
+                add(t2);
+            }
+        }
     }
 }
 
-public class Menu {
-    public static void main(String[] args) {
-        MenuWindow m = new MenuWindow("Poznaj Nutki");
-        m.setVisible(true);
-    }
-}
