@@ -6,7 +6,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-class Menu extends JPanel implements ActionListener {
+/**
+ * Klasa reprezentująca panel menu gry.
+ * Dziedziczy po JPanel i implementuje interfejs ActionListener.
+ */
+public class Menu extends JPanel implements ActionListener {
+    /**
+     * Flaga wskazująca, czy samouczek został ukończony.
+     */
     public Boolean isTutorialCompleted = false;
     //deklaracja komponentów
     JButton t1, t2, t3, options;
@@ -55,6 +62,11 @@ class Menu extends JPanel implements ActionListener {
         add(options);
     }
 
+    /**
+     * Metoda obsługująca zdarzenia akcji w menu.
+     * W zależności od wciśniętego przycisku, zmienia aktualną scenę gry.
+     * @param e Obiekt zdarzenia akcji.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
@@ -66,7 +78,10 @@ class Menu extends JPanel implements ActionListener {
         }
     }
 
-    //sprawdzanie czy tutorial został zrobiony, jeśli tak to wyświetla przycisk następnego trybu
+    /**
+     * Metoda sprawdzająca, czy samouczek został ukończony. Jeśli tak, dodaje
+     * przycisk "ZAGRAJ PIOSENKĘ" do menu.
+     */
     public void checkTutorial() {
         if (isTutorialCompleted) {
             if (t2 == null) {

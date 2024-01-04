@@ -3,7 +3,10 @@ import enums.Scenes;
 import javax.swing.*;
 import java.awt.*;
 
-class Window extends JFrame{
+/**
+ * Klasa reprezentująca główne okno aplikacji.
+ */
+public class Window extends JFrame{
     public static EndlessMode endlessModeScene = new EndlessMode(); // public static
     public static Tutorial tutorialScene = new Tutorial();
     public static PlaySong songScene = new PlaySong();
@@ -29,6 +32,11 @@ class Window extends JFrame{
         getContentPane().add(cardPanel, BorderLayout.CENTER);
     }
 
+    /**
+     * Metoda zmieniająca aktualnie widoczną scenę.
+     *
+     * @param scene Wybrana scena.
+     */
     public static void SetScene(Scenes scene){
         switch (scene){
             case MENU:
@@ -52,6 +60,12 @@ class Window extends JFrame{
         }
     }
 
+
+    /**
+     * Metoda aktualizująca poziom głośności.
+     *
+     * @param sliderValue Wartość zsuwaka głośności.
+     */
     public static void updateVolume(int sliderValue) {
         volume = (float) sliderValue;
         System.out.print(sliderValue+"\n");

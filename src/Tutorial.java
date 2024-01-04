@@ -17,6 +17,10 @@ import java.util.Objects;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Klasa reprezentująca panel samouczka.
+ * Dziedziczy po JPanel i implementuje interfejs ActionListener.
+ */
 public class Tutorial extends JPanel implements ActionListener {
     //deklaracja komponentów
     JButton c, d, e, f, g, a, h, cis, dis, fis, gis, b, podp, menu;
@@ -188,6 +192,10 @@ public class Tutorial extends JPanel implements ActionListener {
         add(layeredPane);
     }
 
+    /**
+     * Metoda obsługująca zdarzenia akcji (kliknięcie przycisku).
+     * @param e Obiekt zdarzenia akcji.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()){
@@ -237,7 +245,11 @@ public class Tutorial extends JPanel implements ActionListener {
         }
     }
 
-    //funkcja sprawdzająca poprawność wciśniętego przycisku/wpisanej litery
+    /**
+     * Funkcja sprawdzająca poprawność wciśniętego przycisku/wpisanej litery.
+     * Odtwarza dźwięk odpowiadający nucie i sprawdza, czy wciśnięta nota jest poprawna.
+     * @param note Nuta do sprawdzenia.
+     */
     void checkNote(Notes note){
         Utilities.playSound(note, clip, sound);
         if(note == noteToPlay && Objects.equals(let.getText(), Utilities.getNoteLetter(noteToPlay))){
@@ -252,6 +264,9 @@ public class Tutorial extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * Metoda resetująca samouczek, przywracając parametry do stanu początkowego.
+     */
     void resetTutorial() {
         availableNotes = new ArrayList<>(List.of(Notes.values()));
         noteIndex = 0;
@@ -259,7 +274,11 @@ public class Tutorial extends JPanel implements ActionListener {
         let.setText("");
     }
 
-    //losowe wyświetalanie nut
+
+    /**
+     * Losowo wybiera nutę z listy dostępnych nut i wyświetla obraz reprezentujący nutę.
+     * @return Obiekt ImageIcon obraz reprezentujący nutę.
+     */
     ImageIcon randomizeNote() {
         if (availableNotes.isEmpty()) {
             availableNotes = new ArrayList<>(List.of(Notes.values()));
@@ -270,7 +289,9 @@ public class Tutorial extends JPanel implements ActionListener {
         return new ImageIcon(Utilities.getImagePath(randomNote));
     }
 
-    //komunikat po skończonej grze
+    /**
+     * Wyświetla komunikat po zakończeniu samouczka.
+     */
     private void showMessage() {
         int option = JOptionPane.showOptionDialog(
                 this,

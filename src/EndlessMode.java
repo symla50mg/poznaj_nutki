@@ -9,7 +9,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-class EndlessMode extends JPanel implements ActionListener {
+/**
+ * Klasa reprezentująca panel trybu gry dowolnej.
+ * Dziedziczy po JPanel i implementuje interfejs ActionListener.
+ */
+public class EndlessMode extends JPanel implements ActionListener {
     //deklaracja komponentów
     JButton c, d, e, f, g, a, h, cis, dis, fis, gis, b, menu;
     AudioInputStream sound;
@@ -126,6 +130,12 @@ class EndlessMode extends JPanel implements ActionListener {
         add(layeredPane);
     }
 
+
+    /**
+     * Metoda obsługująca zdarzenia akcji (kliknięcie przycisku).
+     * Odtwarza dźwięk nuty zależnie od wciśniętego przycisku.
+     * @param e Obiekt zdarzenia akcji.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()){

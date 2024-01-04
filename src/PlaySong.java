@@ -11,6 +11,10 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Klasa reprezentująca panel gry w odtwarzanie melodii.
+ * Dziedziczy po JPanel i implementuje interfejs ActionListener.
+ */
 public class PlaySong extends JPanel implements ActionListener {
     //deklaracja komponentów
     JButton c, d, e, f, g, a, h, cis, dis, fis, gis, b, menu;
@@ -163,6 +167,10 @@ public class PlaySong extends JPanel implements ActionListener {
         add(layeredPane);
     }
 
+    /**
+     * Metoda obsługująca zdarzenia akcji (kliknięcie przycisku).
+     * @param e Obiekt zdarzenia akcji.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()){
@@ -209,7 +217,12 @@ public class PlaySong extends JPanel implements ActionListener {
         }
     }
 
-    //sprawdzanie czy kliknięty przycisk jest poprawny
+    /**
+     * Funkcja sprawdzająca poprawność wciśniętego przycisku.
+     * Odtwarza dźwięk odpowiadający nucie i sprawdza, czy wciśnięta nota jest zgodna z zadaną melodią.
+     * Aktualizuje wynik gry oraz komunikaty w przypadku wygranej lub przegranej.
+     * @param note Nuta do sprawdzenia.
+     */
     void checkNote(Notes note){
         Utilities.playSound(note, clip, sound);
         if (noteIndex < song.length){
@@ -234,6 +247,9 @@ public class PlaySong extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * Metoda resetująca grę, przywracając parametry do stanu początkowego.
+     */
     void resetPlaySong(){
         noteIndex = 0;
         errorsCount = 0;
@@ -242,11 +258,17 @@ public class PlaySong extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * Wyświetla komunikat po przegranej.
+     */
     private void showLossMessage() {
         JOptionPane.showMessageDialog(this, "Zacznij od nowa.", "Przegrana!",
                 JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Wyświetla komunikat po wygranej, z opcją powrotu do menu.
+     */
     private void showWinMessage() {
         int option = JOptionPane.showOptionDialog(
                 this,

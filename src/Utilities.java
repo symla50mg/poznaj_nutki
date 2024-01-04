@@ -6,8 +6,18 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import java.io.File;
 
+/**
+ * Klasa narzędziowa zawierająca pomocnicze metody związane z grą.
+ */
 public class Utilities {
 
+
+    /**
+     * Zwraca ścieżkę do dźwięku danej nuty.
+     *
+     * @param note Nuta, dla której ma zostać pobrana ścieżka dźwiękowa.
+     * @return Ścieżka dźwiękowa danej nuty.
+     */
     public static String getSoundPath(Notes note) {
         switch (note) {
             case NOTE_C:
@@ -39,6 +49,12 @@ public class Utilities {
         }
     }
 
+    /**
+     * Zwraca literę odpowiadającą danej nucie.
+     *
+     * @param note Nuta, dla której ma zostać zwrócona litera.
+     * @return Litera odpowiadająca danej nucie.
+     */
     public static String getNoteLetter(Notes note) {
         switch (note) {
             case NOTE_C:
@@ -70,6 +86,12 @@ public class Utilities {
         }
     }
 
+    /**
+     * Zwraca literę odpowiadającą danej nucie.
+     *
+     * @param note Nuta, dla której ma zostać zwrócona litera.
+     * @return Litera odpowiadająca danej nucie.
+     */
     public static String getImagePath(Notes note) {
         switch (note) {
             case NOTE_C:
@@ -101,6 +123,14 @@ public class Utilities {
         }
     }
 
+
+    /**
+     * Odtwarza dźwięk odpowiadający danej nucie.
+     *
+     * @param note Nuta, dla której ma zostać odtworzony dźwięk.
+     * @param clip Obiekt Clip do odtwarzania dźwięku.
+     * @param sound Strumień audio dla danego dźwięku.
+     */
     public static void playSound(Notes note, Clip clip, AudioInputStream sound){
         try{
             sound = AudioSystem.getAudioInputStream(new File(Utilities.getSoundPath(note)));
