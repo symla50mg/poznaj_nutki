@@ -1,17 +1,17 @@
 import enums.Notes;
 import enums.Scenes;
-import org.w3c.dom.Text;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.io.File;
-import javax.sound.sampled.*;
 import javax.swing.border.LineBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 class EndlessMode extends JPanel implements ActionListener {
     //deklaracja komponentów
-    JButton c, d, e, f, g, a, h, cis, dis, fis, gis, b;
+    JButton c, d, e, f, g, a, h, cis, dis, fis, gis, b, menu;
     AudioInputStream sound;
     Clip clip;
 
@@ -21,7 +21,7 @@ class EndlessMode extends JPanel implements ActionListener {
         setBackground(new Color(185, 185, 185));
 
         //tworzenie komponentów
-        JButton menu = new JButton("MENU");
+        menu = new JButton("MENU");
         menu.addActionListener(this);
         menu.setActionCommand("MENU");
         menu.setBounds(60,40,120,40);
@@ -173,6 +173,3 @@ class EndlessMode extends JPanel implements ActionListener {
         }
     }
 }
-
-
-

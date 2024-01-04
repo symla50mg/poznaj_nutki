@@ -3,6 +3,7 @@ import enums.Notes;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import java.io.File;
 
 public class Utilities {
@@ -35,6 +36,37 @@ public class Utilities {
                 return "src/sounds/B.wav";
             default:
                 return "src/sounds/C.wav";
+        }
+    }
+
+    public static String getNoteLetter(Notes note) {
+        switch (note) {
+            case NOTE_C:
+                return "C";
+            case NOTE_D:
+                return "D";
+            case NOTE_E:
+                return "E";
+            case NOTE_F:
+                return "F";
+            case NOTE_G:
+                return "G";
+            case NOTE_A:
+                return "A";
+            case NOTE_H:
+                return "H";
+            case NOTE_CIS:
+                return "C#";
+            case NOTE_DIS:
+                return "D#";
+            case NOTE_FIS:
+                return "F#";
+            case NOTE_GIS:
+                return "G#";
+            case NOTE_B:
+                return "B";
+            default:
+                return "UKNOWN";
         }
     }
 
@@ -74,6 +106,8 @@ public class Utilities {
             sound = AudioSystem.getAudioInputStream(new File(Utilities.getSoundPath(note)));
             clip = AudioSystem.getClip();
             clip.open(sound);
+            FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            volumeControl.setValue(Window.volume);
             clip.start();
         }catch (Exception ex){
             ex.printStackTrace();

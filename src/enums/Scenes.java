@@ -4,5 +4,6 @@ public enum Scenes {
     MENU,
     TUTORIAL,
     PLAY_SONG,
-    ENDLESS_MODE
+    ENDLESS_MODE,
+    OPTIONS
 }

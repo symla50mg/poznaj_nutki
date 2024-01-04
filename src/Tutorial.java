@@ -5,34 +5,41 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
+import javax.swing.text.PlainDocument;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Random;
+import java.util.List;
+import java.util.Objects;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class Tutorial extends JPanel implements ActionListener {
     //deklaracja komponentów
-    JButton c, d, e, f, g, a, h, cis, dis, fis, gis, b, spr, podp;
+    JButton c, d, e, f, g, a, h, cis, dis, fis, gis, b, podp, menu;
     JLabel img, text;
     JTextField let;
     AudioInputStream sound;
     Clip clip;
+    List<Notes> availableNotes;
 
     // zmienne tutorialowe
-    Random random = new Random();
     int noteIndex = 0;
     int NotesLeft = 12;
-    ImageIcon noteIcon;
     Notes noteToPlay;
-
 
     Tutorial(){
         JLayeredPane layeredPane = new JLayeredPane();
         layeredPane.setPreferredSize(new Dimension(1024, 768));
         setBackground(new Color(185, 185, 185));
 
+        availableNotes = new ArrayList<>(List.of(Notes.values()));
+
         //tworzenie komponentów
-        JButton menu = new JButton("MENU");
+        menu = new JButton("MENU");
         menu.addActionListener(this);
         menu.setActionCommand("MENU");
         menu.setBounds(60,40,120,40);
@@ -42,20 +49,10 @@ public class Tutorial extends JPanel implements ActionListener {
         menu.setForeground(Color.BLACK);
         layeredPane.add(menu, JLayeredPane.DEFAULT_LAYER);
 
-        spr = new JButton("SPRAWDŹ");
-        spr.addActionListener(this);
-        spr.setActionCommand("SPR");
-        spr.setBounds(267, 570, 230, 50);
-        spr.setBackground(new Color(112, 112, 112));
-        spr.setBorder(new LineBorder(Color.BLACK, 2, true));
-        spr.setFont(new Font("Arial", Font.BOLD, 24));
-        spr.setForeground(Color.BLACK);
-        layeredPane.add(spr, JLayeredPane.DEFAULT_LAYER);
-
         podp = new JButton("PODPOWIEDŹ");
         podp.addActionListener(this);
         podp.setActionCommand("podp");
-        podp.setBounds(527, 570, 230, 50);
+        podp.setBounds(397, 570, 230, 50);
         podp.setBackground(new Color(112, 112, 112));
         podp.setBorder(new LineBorder(Color.BLACK, 2, true));
         podp.setFont(new Font("Arial", Font.BOLD, 24));
@@ -71,14 +68,24 @@ public class Tutorial extends JPanel implements ActionListener {
         text.setForeground(Color.BLACK);
         layeredPane.add(text, JLayeredPane.DEFAULT_LAYER);
 
-        let = new JTextField();
+        let = new JTextField(2);
         let.setBounds(637, 300, 70, 40);
         let.setBorder(new LineBorder(Color.BLACK, 2, true));
         let.setFont(new Font("Arial", Font.BOLD, 20));
         let.setForeground(Color.BLACK);
         let.setHorizontalAlignment(SwingConstants.CENTER);
+        PlainDocument doc = (PlainDocument) let.getDocument();
+        doc.setDocumentFilter(new DocumentFilter() {
+            @Override
+            public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs)
+                    throws BadLocationException {
+                int newLength = fb.getDocument().getLength() - length + text.length();
+                if (newLength <= 2) {
+                    super.replace(fb, offset, length, text, attrs);
+                }
+            }
+        });
         layeredPane.add(let, JLayeredPane.DEFAULT_LAYER);
-
 
         c = new JButton();
         c.addActionListener(this);
@@ -171,19 +178,22 @@ public class Tutorial extends JPanel implements ActionListener {
         b.setBackground(Color.BLACK);
         layeredPane.add(b, JLayeredPane.PALETTE_LAYER);
 
-        //dodawanie komponentów
-        add(layeredPane);
-
         img = new JLabel();
         img.setBounds(396, 100, 250, 170);
         img.setBorder(new LineBorder(Color.BLACK, 2, true));
         layeredPane.add(img, JLayeredPane.DEFAULT_LAYER);
         img.setIcon(randomizeNote());
+
+        //dodawanie komponentów
+        add(layeredPane);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()){
+            case "podp":
+                let.setText(Utilities.getNoteLetter(noteToPlay));
+                break;
             case "MENU":
                 Window.SetScene(Scenes.MENU);
                 break;
@@ -229,22 +239,49 @@ public class Tutorial extends JPanel implements ActionListener {
 
     void checkNote(Notes note){
         Utilities.playSound(note, clip, sound);
-        if(note == noteToPlay){
+        if(note == noteToPlay && Objects.equals(let.getText(), Utilities.getNoteLetter(noteToPlay))){
             noteIndex++;
-            if (noteIndex >= 12){
+            if (noteIndex >= NotesLeft){
                 Window.menuScene.isTutorialCompleted = true;
-                Window.SetScene(Scenes.MENU);
+                showMessage();
                 return;
             }
-
             img.setIcon(randomizeNote());
+            let.setText("");
         }
     }
 
-    ImageIcon randomizeNote(){
-        Notes[] notes = Notes.values();
-        Notes randomNote = notes[noteIndex];
+    void resetTutorial() {
+        availableNotes = new ArrayList<>(List.of(Notes.values()));
+        noteIndex = 0;
+        img.setIcon(randomizeNote());
+        let.setText("");
+    }
+
+    ImageIcon randomizeNote() {
+        if (availableNotes.isEmpty()) {
+            availableNotes = new ArrayList<>(List.of(Notes.values()));
+        }
+        Collections.shuffle(availableNotes);
+        Notes randomNote = availableNotes.remove(0);
         noteToPlay = randomNote;
         return new ImageIcon(Utilities.getImagePath(randomNote));
+    }
+
+    private void showMessage() {
+        int option = JOptionPane.showOptionDialog(
+                this,
+                "Gratulacje! Udało Ci ukończyć samouczek.",
+                "Samouczek",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                new Object[]{"MENU", "OD NOWA"},
+                "OD NOWA");
+        if (option == JOptionPane.YES_OPTION) {
+            Window.SetScene(Scenes.MENU);
+        }else if (option == JOptionPane.NO_OPTION) {
+            resetTutorial();
+        }
     }
 }

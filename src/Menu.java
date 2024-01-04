@@ -1,19 +1,19 @@
 import enums.Scenes;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.border.LineBorder;
 
 class Menu extends JPanel implements ActionListener {
     //deklaracja komponentów
-    JButton t1, t2, t3;
+    JButton t1, t2, t3, options;
     JLabel logo;
 
     public Boolean isTutorialCompleted = false;
 
-    Menu(){
+    Menu() {
         setLayout(null);
         setBackground(new Color(185, 185, 185));
 
@@ -40,26 +40,36 @@ class Menu extends JPanel implements ActionListener {
         t3.setFont(new Font("Arial", Font.BOLD, 24));
         t3.setForeground(Color.BLACK);
 
+        options = new JButton("OPCJE");
+        options.addActionListener(this);
+        options.setActionCommand("OPTIONS");
+        options.setBounds(357, 610, 310, 50);
+        options.setBackground(new Color(112, 112, 112));
+        options.setBorder(new LineBorder(Color.BLACK, 2, true));
+        options.setFont(new Font("Arial", Font.BOLD, 24));
+        options.setForeground(Color.BLACK);
+
         //dodawanie komponentów
         add(logo);
         add(t1);
         add(t3);
-
+        add(options);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        switch (e.getActionCommand()){
+        switch (e.getActionCommand()) {
             case "MENU" -> Window.SetScene(Scenes.MENU);
             case "ENDLESS_MODE" -> Window.SetScene(Scenes.ENDLESS_MODE);
             case "TUTORIAL" -> Window.SetScene(Scenes.TUTORIAL);
             case "PLAY_SONG" -> Window.SetScene(Scenes.PLAY_SONG);
+            case "OPTIONS" -> Window.SetScene(Scenes.OPTIONS);
         }
     }
 
-    public void checkTutorial(){
-        if (isTutorialCompleted){
-            if (t2 == null){
+    public void checkTutorial() {
+        if (isTutorialCompleted) {
+            if (t2 == null) {
                 t2 = new JButton("ZAGRAJ PIOSENKĘ");
                 t2.addActionListener(this);
                 t2.setActionCommand("PLAY_SONG");
@@ -73,4 +83,3 @@ class Menu extends JPanel implements ActionListener {
         }
     }
 }
-
