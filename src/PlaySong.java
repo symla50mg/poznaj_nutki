@@ -30,6 +30,7 @@ public class PlaySong extends JPanel implements ActionListener {
             Notes.NOTE_G, Notes.NOTE_E, Notes.NOTE_E,
             Notes.NOTE_F, Notes.NOTE_D, Notes.NOTE_D,
             Notes.NOTE_C, Notes.NOTE_E, Notes.NOTE_C};
+
     PlaySong() {
         JLayeredPane layeredPane = new JLayeredPane();
         layeredPane.setPreferredSize(new Dimension(1024, 768));
@@ -150,6 +151,7 @@ public class PlaySong extends JPanel implements ActionListener {
         text.setForeground(Color.BLACK);
         layeredPane.add(text, JLayeredPane.DEFAULT_LAYER);
 
+        //wstawianie 3 ikon serca po sobie
         for (int i = 0; i < 3; i++) {
             JLabel heartIcon = new JLabel(new ImageIcon("src/images/heart.png"));
             heartIcon.setBounds(800 + i * 70, 20, 60, 60);
@@ -207,6 +209,7 @@ public class PlaySong extends JPanel implements ActionListener {
         }
     }
 
+    //sprawdzanie czy kliknięty przycisk jest poprawny
     void checkNote(Notes note){
         Utilities.playSound(note, clip, sound);
         if (noteIndex < song.length){

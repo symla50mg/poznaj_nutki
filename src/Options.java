@@ -24,7 +24,6 @@ public class Options extends JPanel implements ActionListener {
         menu.setForeground(Color.BLACK);
         layeredPane.add(menu, JLayeredPane.DEFAULT_LAYER);
 
-
         JLabel optionsLabel = new JLabel("Zmień głośność");
         optionsLabel.setBounds(357, 160, 310, 50);
         optionsLabel.setFont(new Font("Arial", Font.BOLD, 24));
@@ -45,6 +44,7 @@ public class Options extends JPanel implements ActionListener {
 
         volumeSlider.addChangeListener(e -> Window.updateVolume(volumeSlider.getValue()));
 
+        //dodawanie komponentów
         add(layeredPane);
     }
 

@@ -237,6 +237,7 @@ public class Tutorial extends JPanel implements ActionListener {
         }
     }
 
+    //funkcja sprawdzająca poprawność wciśniętego przycisku/wpisanej litery
     void checkNote(Notes note){
         Utilities.playSound(note, clip, sound);
         if(note == noteToPlay && Objects.equals(let.getText(), Utilities.getNoteLetter(noteToPlay))){
@@ -258,6 +259,7 @@ public class Tutorial extends JPanel implements ActionListener {
         let.setText("");
     }
 
+    //losowe wyświetalanie nut
     ImageIcon randomizeNote() {
         if (availableNotes.isEmpty()) {
             availableNotes = new ArrayList<>(List.of(Notes.values()));
@@ -268,6 +270,7 @@ public class Tutorial extends JPanel implements ActionListener {
         return new ImageIcon(Utilities.getImagePath(randomNote));
     }
 
+    //komunikat po skończonej grze
     private void showMessage() {
         int option = JOptionPane.showOptionDialog(
                 this,

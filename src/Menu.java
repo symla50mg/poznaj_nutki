@@ -7,11 +7,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 class Menu extends JPanel implements ActionListener {
+    public Boolean isTutorialCompleted = false;
     //deklaracja komponentów
     JButton t1, t2, t3, options;
     JLabel logo;
-
-    public Boolean isTutorialCompleted = false;
 
     Menu() {
         setLayout(null);
@@ -67,6 +66,7 @@ class Menu extends JPanel implements ActionListener {
         }
     }
 
+    //sprawdzanie czy tutorial został zrobiony, jeśli tak to wyświetla przycisk następnego trybu
     public void checkTutorial() {
         if (isTutorialCompleted) {
             if (t2 == null) {
